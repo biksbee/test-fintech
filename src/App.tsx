@@ -32,7 +32,7 @@ export default function App() {
         } else setDisabled(true)
 
     }, [price, contribution, time, payment, city, date, type, question]);
-
+//
   return (
           <div className="mainBox">
               <div id="box" className="h-full xl:w-[1130px] md:max-w-[1067px] w-full min-w-[350px]">
