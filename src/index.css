@@ -27,5 +27,12 @@ body {
 }
 
 @layer utilites {
-
+    .field::-webkit-slider-thumb{
+        -webkit-appearance: none;
+        height: 12px;
+        width: 12px;
+        background: rgba(251, 229, 77, 1);
+        border-radius: 50%;
+        cursor: pointer;
+    }
 }

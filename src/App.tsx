@@ -7,6 +7,7 @@ import { DropDownMenu } from "./components/dropDown/DropDownMenu";
 import pay from "./assets/icon/inputIcon.svg"
 
 import { text } from "./text"
+const RES = 'res';
 export default function App() {
 
     const [price, setPrice] = useState<string>('1000000')
@@ -32,7 +33,16 @@ export default function App() {
         } else setDisabled(true)
 
     }, [price, contribution, time, payment, city, date, type, question]);
-//
+
+    useEffect(() => {
+        console.log(JSON.parse(localStorage.getItem(RES) ?? '{}'))
+    }, []);
+
+    const send = (): void => {
+        localStorage.setItem(RES, JSON.stringify({price, contribution, time, payment, city, date, type, question}))
+        window.location.reload();
+    }
+
   return (
           <div className="mainBox">
               <div id="box" className="h-full xl:w-[1130px] md:max-w-[1067px] w-full min-w-[350px]">
@@ -120,7 +130,7 @@ export default function App() {
                       <Button
                           disabled={disabled}
                           type={disabled ? "disabled" : "active"}
-                          handler={() => {console.log({price, contribution, time, payment, city, date, type, question})}}
+                          handler={send}
                       />
                   </div>
               </div>

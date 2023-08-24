@@ -53,7 +53,7 @@ export const Input:FC<InputI> = ({
                 onChange(debounceValue)
                 setError(false)
                 setDisabled(false)
-            } else if(type === "time" && +debounceValue <= +InputRange[type]){
+            } else if(type === "time" && +debounceValue >= 4 && +debounceValue <= +InputRange[type]){
                 onChange(debounceValue)
                 setError(false)
                 setDisabled(false)
@@ -150,8 +150,18 @@ export const Input:FC<InputI> = ({
                         alt="inputIcon"
                     />
                 </div> : null}
-                <div className={`absolute z-[100] bottom-[12px] left-[2px] bg-c_yellow h-[2px] w-[${wLine}px]`} />
-                <div className={`absolute z-[100] bottom-[7px] h-[12px] w-[12px] bg-c_yellow rounded-full left-[${wLine}px]`} />
+                {type !== "price" ?
+                        <input
+                            id={"idRange"}
+                            type={"range"}
+                            className={`absolute z-[100] bottom-[12px] left-[2px] h-[2px] dark:bg-c_yellow bg-c_yellow text-c_yellow w-[300px] appearance-none border-transparent`}
+                            value={debounceValue}
+                            onChange={(e) => setDebounceValue(e.target.value)}
+                            step={type === "contribution" ? "1000" : "1"}
+                            min={type === 'contribution' ? +related/4 : type === "payment" ? 2654 : 4}
+                            max={type === 'time' ? 30 : 10000000}
+                        />
+                    : null}
             </div>
             {warningMes ? type === "payment" ?
                 <div

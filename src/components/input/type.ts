@@ -2,9 +2,9 @@ export type InputType = 'price' | 'contribution' | 'time' | 'payment'
 
 export const InputState = {
     price: /^[0-9]{2,8}$/,
-    contribution: /^[0-9]{2,7}$/,
+    contribution: /^[0-9]{2,8}$/,
     time: /^[0-9]{1,2}$/,
-    payment: /^[0-9]{4,7}$/
+    payment: /^[0-9]{4,8}$/
 }
 
 export const InputRange = {
