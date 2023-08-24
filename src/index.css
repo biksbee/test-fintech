@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+html {
+    @apply font-exo overflow-x-hidden
+}
+
+body {
+    @apply bg-c_grey-dark w-screen h-screen relative
+}
+
+@layer base {
+    .cb {
+        @apply border-[1px] border-[#f00]
+    }
+    .mainBox {
+        @apply w-screen h-screen relative flex justify-center items-center
+        pt-[120px] xl:pb-[150px]
+    }
+    .mainTitle{
+        @apply text-c_grey-white mb-[32px]
+        md:text-[48px] md:leading-[56.25px]
+        text-[31px] leading-[36.33px]
+    }
+}
+
+@layer utilites {
+
+}
