@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/test-fintech/static/css/main.685ea7d0.css",
-    "main.js": "/test-fintech/static/js/main.ed8bac55.js",
+    "main.css": "/test-fintech/static/css/main.5433fc96.css",
+    "main.js": "/test-fintech/static/js/main.64040fb1.js",
     "static/js/787.021ccffc.chunk.js": "/test-fintech/static/js/787.021ccffc.chunk.js",
     "static/media/inputIcon.svg": "/test-fintech/static/media/inputIcon.ad640e648fe2c0744642e0f7e45a8be8.svg",
     "static/media/Info.svg": "/test-fintech/static/media/Info.94181ff07acaba7da4566c8f9b7d645f.svg",
     "static/media/warning.svg": "/test-fintech/static/media/warning.06600127fa0c86d3ea22b6c2ba55eda4.svg",
     "static/media/mediumWarning.svg": "/test-fintech/static/media/mediumWarning.5b37fabb00c56458615e7c1496ec53b2.svg",
     "static/media/search.svg": "/test-fintech/static/media/search.4b6bec76e2debadea07387fe3ce1de1e.svg",
-    "static/media/CaretDown.svg": "/test-fintech/static/media/CaretDown.1da76b5089cd8d7f36278eec5fb2b860.svg",
     "index.html": "/test-fintech/index.html",
+    "static/media/CaretDown.svg": "/test-fintech/static/media/CaretDown.1da76b5089cd8d7f36278eec5fb2b860.svg",
     "static/media/triangle.svg": "/test-fintech/static/media/triangle.5470b0ed8a9f51b42e9065b64693a9fa.svg",
-    "main.685ea7d0.css.map": "/test-fintech/static/css/main.685ea7d0.css.map",
-    "main.ed8bac55.js.map": "/test-fintech/static/js/main.ed8bac55.js.map",
+    "main.5433fc96.css.map": "/test-fintech/static/css/main.5433fc96.css.map",
+    "main.64040fb1.js.map": "/test-fintech/static/js/main.64040fb1.js.map",
     "787.021ccffc.chunk.js.map": "/test-fintech/static/js/787.021ccffc.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.685ea7d0.css",
-    "static/js/main.ed8bac55.js"
+    "static/css/main.5433fc96.css",
+    "static/js/main.64040fb1.js"
   ]
 }
