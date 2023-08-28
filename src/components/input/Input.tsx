@@ -1,22 +1,23 @@
 import { FC, useState, useEffect } from 'react';
 import cn from 'classnames';
 import type { InputType } from './type';
-import {InputState, InputError, InputRange, InputWarning} from "./type";
+import {InputState, InputError, InputRangeMax, InputRangeMin, InputWarning} from "./type";
 
 import {useDebounce} from "../../hooks/useDebounce";
 import warning from "../../assets/icon/warning.svg";
 import mediumWarning from "../../assets/icon/mediumWarning.svg"
 import info from "../../assets/icon/Info.svg"
 import triangle from "../../assets/icon/triangle.svg"
+import { CustomRangeInput } from "../custom/CustomInputRange";
 
 interface InputI {
     id?: string;
-    onChange: (value:string) => void;
-    value: string;
+    onChange: (value:number) => void;
+    value: number;
     placeholder: string;
     type: InputType;
     icon?: string;
-    related?: string;
+    related?: number;
     setDisabled: (disabled: boolean) => void
 }
 
@@ -34,32 +35,26 @@ export const Input:FC<InputI> = ({
     const [show, setShow] = useState<boolean>(false)
     const [error, setError] = useState<boolean>(false)
     const [warningMes, setWarningMes] = useState<boolean>(false)
-    const [wLine, setWLine] = useState<number>(100)
-    const [debounceValue, setDebounceValue] = useState<string>(value)
+    const [debounceValue, setDebounceValue] = useState<number>(value)
     const debounceItem = useDebounce(debounceValue, 300)
 
     const exp: RegExp = InputState[type];
 
     useEffect(() => {
-        if(exp.test(debounceValue)){
-            if(type === "price" && +debounceValue <= +InputRange[type]){
-                setWLine(320*+debounceValue/10000000)
-                console.log("line: " + 320*+debounceValue/10000000)
-                console.log(debounceValue)
+        if(exp.test(debounceValue.toString())){
+            if(type === "price" && debounceValue <= InputRangeMax[type]){
                 onChange(debounceValue)
                 setError(false)
                 setDisabled(false)
-            } else if(type === "contribution" && +related*+InputRange[type]/100 <= (+debounceValue)) {
+            } else if(type === "contribution" && related*InputRangeMin[type] <= debounceValue && debounceValue <= related) {
                 onChange(debounceValue)
                 setError(false)
                 setDisabled(false)
-            } else if(type === "time" && +debounceValue >= 4 && +debounceValue <= +InputRange[type]){
+            } else if(type === "time" && debounceValue >= InputRangeMin[type] && debounceValue <= InputRangeMax[type]){
                 onChange(debounceValue)
                 setError(false)
                 setDisabled(false)
-            } else if(type === 'payment' && +debounceValue >= +InputRange[type]){
-                if(+debounceValue === +InputRange[type]) setWarningMes(true)
-                else setWarningMes(false)
+            } else if(type === 'payment' && debounceValue >= InputRangeMin[type] && debounceValue <= InputRangeMax[type]){
                 onChange(debounceValue)
                 setError(false)
                 setDisabled(false)
@@ -73,10 +68,25 @@ export const Input:FC<InputI> = ({
             setError(true)
             setWarningMes(true)
         }
+        if(
+            (type === "payment" && debounceValue === InputRangeMin[type]) ||
+            (type === "contribution" && debounceValue === InputRangeMin[type]*related)
+        ){
+            setWarningMes(true)
+        } else setWarningMes(false)
     }, [debounceItem])
 
+    // useEffect(() => {
+    //     if(type === "contribution" && related !== 10000000){
+    //         setDebounceValue(related*0.25)
+    //     }
+    // }, [related]);
+
     const handlerValueInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-        return setDebounceValue(e.target.value)
+        let newValue:number = parseInt(e.target.value);
+        if(e.target.value === "")
+           newValue = 0
+        return setDebounceValue(newValue)
     }
 
     return(
@@ -84,7 +94,7 @@ export const Input:FC<InputI> = ({
             <label
                 htmlFor={id}
                 className={cn(
-                    "flex gap-x-[6px] text-[16px] leading-[22.4px] text-c_grey-white pb-[12px] font-mont"
+                    "flex gap-x-[6px] text-[16px] leading-[22.4px] text-c_grey-white pb-[12px] font-inter font-medium"
                 )}
             >
                 {placeholder}
@@ -130,7 +140,7 @@ export const Input:FC<InputI> = ({
                     : null
                 }
             </label>
-            <div className={"relative flex"}>
+            <div className={"relative flex flex-col"}>
                 <input
                     id={id}
                     value={debounceValue}
@@ -138,7 +148,7 @@ export const Input:FC<InputI> = ({
                     className={cn(
                         "w-full h-[52px] px-[24px] py-[12px] mb-[12px]",
                         "bg-c_grey-base rounded-[6px] border-[1px] border-c_grey-border text-c_grey-white",
-                        error && "border-c_orange-error border-[2px]",
+                        error && "border-c_orange-error border-[2px] font-inter font-normal",
                     )}
                     required
                 />
@@ -151,19 +161,33 @@ export const Input:FC<InputI> = ({
                     />
                 </div> : null}
                 {type !== "price" ?
-                        <input
-                            id={"idRange"}
-                            type={"range"}
-                            className={`absolute z-[100] bottom-[12px] left-[2px] h-[2px] dark:bg-c_yellow bg-c_yellow text-c_yellow w-[300px] appearance-none border-transparent`}
-                            value={debounceValue}
-                            onChange={(e) => setDebounceValue(e.target.value)}
-                            step={type === "contribution" ? "1000" : "1"}
-                            min={type === 'contribution' ? +related/4 : type === "payment" ? 2654 : 4}
-                            max={type === 'time' ? 30 : 10000000}
+                        <CustomRangeInput
+                            type={type}
+                            debounceValue={debounceValue}
+                            setDebounceValue={setDebounceValue}
+                            related={related}
                         />
                     : null}
             </div>
-            {warningMes ? type === "payment" ?
+            {
+                type === "time" || type === "payment" ?
+                    <div
+                        className={cn(
+                            "flex w-full h-[32px] justify-between items-center",
+                            "text-c_grey-white font-inter font-normal text-[14px] leading-[19,6px]"
+                        )}
+                    >
+                        <div>
+                            {InputRangeMin[type]}
+                            {type === "payment" ? " ₪" : " года"}
+                        </div>
+                        <div>
+                            {InputRangeMax[type]}
+                            {type === "payment" ? " ₪" : " лет"}
+                        </div>
+                    </div> : null
+            }
+            {warningMes && (type === "payment" || type === "contribution") ? type === "payment" ?
                 <div
                     className={cn(
                         warningMes ? "flex bg-c_grey-base w-full h-max py-[6px] pl-[12px] pr-[21px] rounded-[4px] mb-[12px]" : "hidden"
@@ -199,7 +223,7 @@ export const Input:FC<InputI> = ({
                             alt="vector"
                         />
                     </div>
-                    <div className="text-[12px] leading-[16.8px] text-c_grey-white">
+                    <div className="font-inter font-normal text-[12px] leading-[16.8px] text-c_grey-white">
                         {InputError[type]}
                     </div>
                 </div>
@@ -210,8 +234,8 @@ export const Input:FC<InputI> = ({
 
 interface WarningI {
     warningMes: boolean;
-    related?: string | number;
-    debounceValue: string;
+    related?: number;
+    debounceValue: number;
 }
 
 const WarningItem:FC<WarningI> = ({warningMes, related = 1, debounceValue }) => {
@@ -230,7 +254,7 @@ const WarningItem:FC<WarningI> = ({warningMes, related = 1, debounceValue }) => 
                     />
                 </div>
                 <div className="text-[12px] leading-[16.8px] text-c_grey-white">
-                    Cумма финансирования:{debounceValue} ₪ Процент финансирования: {+debounceValue*100/+related}%
+                    Cумма финансирования:{debounceValue} ₪ Процент финансирования: {debounceValue*100/related}%
                 </div>
             </div>
         </div>

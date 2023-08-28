@@ -1,22 +1,23 @@
 import { FC, useState, useEffect } from "react";
 import cn from "classnames";
 import searchIcon from "../../../assets/icon/search.svg";
-import cities from 'cities.json';
+
 
 import {useDebounce} from "../../../hooks/useDebounce";
 import useSymbolIterator from "../../../hooks/useSimbolIterator";
 
 
 interface SearchI {
-    search: number;
-    setSearch: (search: number) => void
+    search: string[];
+    setSearch: (search: string[]) => void;
+    cities: string[];
 }
 
-export const Search:FC<SearchI> = ({search, setSearch}) => {
+export const Search:FC<SearchI> = ({search, setSearch, cities}) => {
     const [error, setError] = useState<boolean>(false)
     const [debounceValue, setDebounceValue] = useState<string>('')
     const [show, setShow] = useState<boolean>(true)
-    const debounceItem = useDebounce(debounceValue, 300)
+    const debounceItem = useDebounce(debounceValue, 100)
 
     useEffect(() => {
         if(debounceValue === '')
@@ -25,10 +26,10 @@ export const Search:FC<SearchI> = ({search, setSearch}) => {
     }, [debounceValue]);
 
     useEffect(() => {
-        const index = cities.findIndex(item => item.name === debounceItem)
-        if(index !== -1){
+        const index = cities.filter(item => item.toLowerCase().startsWith(debounceItem.toLowerCase()))
+        if(index.length !== 0){
             setSearch(index)
-        }
+        } else setSearch(["таких городов нет!"])
     }, [debounceItem]);
 
     const handlerValueInput = (e: React.ChangeEvent<HTMLInputElement>) => {

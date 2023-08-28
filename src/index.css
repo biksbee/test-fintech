@@ -4,7 +4,7 @@
 
 
 html {
-    @apply font-exo overflow-x-hidden
+    @apply font-inter overflow-x-hidden
 }
 
 body {
@@ -17,22 +17,31 @@ body {
     }
     .mainBox {
         @apply w-screen h-screen relative flex justify-center items-center
-        pt-[120px] xl:pb-[150px]
+        pt-[120px] xl:pb-[150px] font-roboto font-normal
     }
     .mainTitle{
-        @apply text-c_grey-white mb-[32px]
+        @apply text-c_grey-white mb-[32px] md:mx-0 mx-[20px]
         md:text-[48px] md:leading-[56.25px]
         text-[31px] leading-[36.33px]
     }
 }
 
 @layer utilites {
-    .field::-webkit-slider-thumb{
-        -webkit-appearance: none;
-        height: 12px;
-        width: 12px;
-        background: rgba(251, 229, 77, 1);
-        border-radius: 50%;
-        cursor: pointer;
+    input[type="range"] {
+        /* настройка полосы */
+        width: 100%;
+        height: 10px;
+        background-color: rgba(251, 229, 77, 1);
+        border-radius: 5px;
     }
+    .thumb-red::-webkit-slider-thumb {
+        background-color: rgba(251, 229, 77, 1);
+        border: none;
+    }
+
+    .thumb-red::-moz-range-thumb {
+        background-color: rgba(251, 229, 77, 1);
+        border: none;
+    }
+
 }

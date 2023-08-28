@@ -15,18 +15,19 @@ interface ButtonI {
 export const Button:FC<ButtonI> = ({disabled, type, handler}) => {
 
     return(
-        <div
+        <button
             className={cn(
                 "md:w-[249px] w-full h-[56px] flex justify-center items-center rounded-[8px]",
                 ButtonState[type]
             )}
-            onClick={!disabled ? handler : () => {}}
+            onClick={handler}
+            disabled
         >
             <div className={cn(
-                "text-[16px] leading-[22.4px] font-exo"
+                "text-[16px] leading-[22.4px] font-inter font-medium"
             )}>
                 Продолжить
             </div>
-        </div>
+        </button>
     )
 }

@@ -1,17 +1,23 @@
 export type InputType = 'price' | 'contribution' | 'time' | 'payment'
 
 export const InputState = {
-    price: /^[0-9]{2,8}$/,
+    price: /^[0-9]{4,8}$/,
     contribution: /^[0-9]{2,8}$/,
     time: /^[0-9]{1,2}$/,
     payment: /^[0-9]{4,8}$/
 }
 
-export const InputRange = {
-    price: "10000000",
-    contribution: "25",
-    time: "30",
-    payment: "2654"
+export const InputRangeMax = {
+    price: 10000000,
+    contribution: 1,
+    time: 30,
+    payment: 51130
+}
+export const InputRangeMin = {
+    price: 0,
+    contribution: 0.25,
+    time: 4,
+    payment: 2654
 }
 
 export const InputError = {
@@ -23,7 +29,7 @@ export const InputError = {
 
 export const InputWarning = {
     price: "",
-    contribution: "Cумма финансирования:100,000 ₪ Процент финансирования:10%",
+    contribution: "",
     time: "",
     payment: "Увеличьте ежемесячный платеж и переплачивайте меньше"
 }

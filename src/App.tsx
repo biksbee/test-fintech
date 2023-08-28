@@ -10,10 +10,10 @@ import { text } from "./text"
 const RES = 'res';
 export default function App() {
 
-    const [price, setPrice] = useState<string>('1000000')
-    const [contribution, setContribution] = useState<string>('500000')
-    const [time, setTime] = useState<string>('30')
-    const [payment, setPayment] = useState<string>('2654')
+    const [price, setPrice] = useState<number>(1000000)
+    const [contribution, setContribution] = useState<number>(price*0.5)
+    const [time, setTime] = useState<number>(30)
+    const [payment, setPayment] = useState<number>(2654)
     const [city, setCity] = useState<string>('')
     const [date, setDate] = useState<string>('')
     const [type, setType] = useState<string>('')
@@ -23,10 +23,10 @@ export default function App() {
 
     useEffect(() => {
         if(
-            +price < 10000000 &&
+            +price <= 10000000 &&
             +price*+25/100 <= +contribution &&
             +time <= 30 &&
-            +payment <= 2654 &&
+            +payment >= 2654 &&
             city !== '' && date !== '' && type !== '' && question !== ''
         ){
             setDisabled(false)
@@ -45,7 +45,7 @@ export default function App() {
 
   return (
           <div className="mainBox">
-              <div id="box" className="h-full xl:w-[1130px] md:max-w-[1067px] w-full min-w-[350px]">
+              <div id="box" className="h-full xl:w-[1139px] xl:mx-0 md:mx-[61px] mx-0 w-full min-w-[350px]">
                   <div className="mainTitle">
                       Рассчитайте ипотеку быстро и просто
                   </div>

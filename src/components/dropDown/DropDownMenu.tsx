@@ -26,9 +26,9 @@ export const DropDownMenu:FC<DropDownMenuI> = ({data, text, label, setData, numb
 
     return(
         <div className={cn(
-            "relative flex flex-col md:w-[325px] w-full"
+            "relative flex flex-col md:w-[328px] w-full"
         )}>
-            <div className="text-c_grey-white text-[15px] font-exo leading-[22.4px] mb-[12px]">
+            <div className="text-c_grey-white text-[16px] font-inter font-medium leading-[22.4px] mb-[12px]">
                 {label}
             </div>
             <ItemList
