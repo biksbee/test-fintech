@@ -11,7 +11,7 @@ const RES = 'res';
 export default function App() {
 
     const [price, setPrice] = useState<number>(1000000)
-    const [contribution, setContribution] = useState<number>(price*0.5)
+    const [contribution, setContribution] = useState<number>(price)
     const [time, setTime] = useState<number>(30)
     const [payment, setPayment] = useState<number>(2654)
     const [city, setCity] = useState<string>('')
@@ -23,10 +23,10 @@ export default function App() {
 
     useEffect(() => {
         if(
-            +price <= 10000000 &&
-            +price*+25/100 <= +contribution &&
-            +time <= 30 &&
-            +payment >= 2654 &&
+            price <= 10000000 &&
+            price/4 <= contribution &&
+            time <= 30 &&
+            payment >= 2654 &&
             city !== '' && date !== '' && type !== '' && question !== ''
         ){
             setDisabled(false)

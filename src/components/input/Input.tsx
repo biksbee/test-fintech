@@ -76,11 +76,13 @@ export const Input:FC<InputI> = ({
         } else setWarningMes(false)
     }, [debounceItem])
 
-    // useEffect(() => {
-    //     if(type === "contribution" && related !== 10000000){
-    //         setDebounceValue(related*0.25)
-    //     }
-    // }, [related]);
+    useEffect(() => {
+        if(type === "contribution" && related === 1000000) {
+            setDebounceValue(related * 0.5)
+        } else if(type === "contribution") {
+            setDebounceValue(related * 0.25)
+        }
+    }, [related]);
 
     const handlerValueInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         let newValue:number = parseInt(e.target.value);
